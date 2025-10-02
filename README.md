@@ -1,4 +1,4 @@
-# ts-tutorial
+# TypeScript-Tutorial
 
 This is a RESTful API project built with TypeScript, Node.js, and Express.
 
