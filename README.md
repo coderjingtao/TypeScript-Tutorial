@@ -1,12 +1,12 @@
 # ts-tutorial
 
-这是一个使用 TypeScript、Node.js 和 Express 构建的 RESTful API 项目。
+This is a RESTful API project built with TypeScript, Node.js, and Express.
 
-## 项目简介
+## Project Overview
 
-本项目实现了用户相关的 API，包括用户的增删改查。项目结构清晰，适合学习和实践 TypeScript 后端开发。
+This project implements user-related APIs, including CRUD operations. The structure is clear and suitable for learning and practicing TypeScript backend development.
 
-## 目录结构
+## Directory Structure
 
 ```
 jest.config.js
@@ -33,69 +33,94 @@ test/
     users.service.test.ts
 ```
 
-## 如何访问 API
+## How to Install
 
-1. 启动服务：
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/coderjingtao/TypeScript-Tutorial.git
+   cd TypeScript-Tutorial
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. (Optional) Copy and edit environment variables:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env as needed
+   ```
+
+## How to Access the API
+
+1. Start the server:
 
    ```bash
    npm run dev
    ```
 
-   默认监听端口为 `3000`。
+   The default port is `3000`.
 
-2. 主要用户相关接口：
+2. Main user-related endpoints:
 
-   - 获取所有用户：
+   - Get all users:
      ```http
      GET /api/users
      ```
-   - 获取指定用户：
+   - Get a specific user:
      ```http
      GET /api/users/:id
      ```
-   - 创建用户：
+   - Create a user:
      ```http
      POST /api/users
      Content-Type: application/json
      {
-       "name": "用户名",
-       "email": "邮箱"
+       "name": "username",
+       "email": "email"
      }
      ```
-   - 更新用户：
+   - Update a user:
      ```http
      PUT /api/users/:id
      Content-Type: application/json
      {
-       "name": "新用户名",
-       "email": "新邮箱"
+       "name": "new username",
+       "email": "new email"
      }
      ```
-   - 删除用户：
+   - Delete a user:
      ```http
      DELETE /api/users/:id
      ```
 
-3. 可使用 Postman、curl 或其他 HTTP 客户端进行接口测试。
+3. You can use Postman, curl, or any other HTTP client to test the endpoints.
 
-## 如何测试 API
+## How to Test the API
 
-1. 运行测试：
+1. Run tests:
 
-   ```bash
-   npm run test
-   ```
+```bash
+npm run test
+```
 
-   会自动执行 `test/` 目录下的所有单元测试。
+This will automatically run all unit tests in the `test/` directory.
 
-2. 测试框架：
+2. Testing framework:
 
-   - 使用 [Jest](https://jestjs.io/) 进行单元测试。
-   - 测试文件位于 `test/controllers/` 和 `test/services/` 目录下。
+- [Jest](https://jestjs.io/) is used for unit testing.
+- Test files are located in `test/controllers/` and `test/services/`.
 
-3. 测试覆盖内容：
-   - 用户服务和控制器的主要功能。
+3. Test coverage:
+
+- Main features of user services and controllers.
 
 ---
 
-如有问题或建议，欢迎提 issue 或 PR。
+---
+
+If you have any questions or suggestions, feel free to open an issue or submit a PR.
