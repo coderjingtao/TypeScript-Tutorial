@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import * as userSerivice from '../services/users.service';
 import { User } from '../types/user';
 import { ApiResponse, success, failure } from '../types/api-response';
+import type { Users } from '@prisma/client';
 
 export const getAllUsers = async (
   req: Request,
-  res: Response<ApiResponse<User[]>>
+  res: Response<ApiResponse<Users[]>>
 ) => {
   try {
     const users = await userSerivice.findAll();
@@ -29,7 +30,7 @@ export const createUser = async (
 
 export const getUserById = async (
   req: Request,
-  res: Response<ApiResponse<User>>
+  res: Response<ApiResponse<Users>>
 ) => {
   try {
     const user = await userSerivice.findById(parseInt(req.params.id, 10));

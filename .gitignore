@@ -22,3 +22,5 @@ coverage/
 # 其他临时文件
 *.swp
 *.swo
+
+/src/generated/prisma

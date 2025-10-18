@@ -1,3 +1,4 @@
+import { prisma } from '../config/prisma-client';
 
 const users = [
   { id: 1, name: 'Alice' },
@@ -6,11 +7,13 @@ const users = [
 ];
 
 export const findAll = async () => {
-  return users;
+  return prisma.users.findMany();
 };
 
 export const findById = async (id: number) => {
-  return users.find((u) => u.id === id);
+  return prisma.users.findUnique({
+    where: { id },
+  });
 };
 
 export const create = async (name: string) => {
