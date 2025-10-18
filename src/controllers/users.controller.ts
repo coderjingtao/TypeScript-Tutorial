@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as userSerivice from '../services/users.service';
-import { User } from '../types/user';
 import { ApiResponse, success, failure } from '../types/api-response';
 import type { Users } from '@prisma/client';
 
@@ -18,10 +17,10 @@ export const getAllUsers = async (
 
 export const createUser = async (
   req: Request,
-  res: Response<ApiResponse<User>>
+  res: Response<ApiResponse<Users>>
 ) => {
   try {
-    const newUser = await userSerivice.create(req.body.name);
+    const newUser = await userSerivice.create(req.body.name, req.body.email);
     res.status(201).json(success(newUser, 'User created'));
   } catch (error) {
     res.status(500).json(failure('Failed to create user', 'USER_CREATE_ERROR'));
@@ -45,7 +44,7 @@ export const getUserById = async (
 
 export const updateUser = async (
   req: Request,
-  res: Response<ApiResponse<User>>
+  res: Response<ApiResponse<Users>>
 ) => {
   try {
     const user = await userSerivice.update(
@@ -64,7 +63,7 @@ export const updateUser = async (
 
 export const deleteUser = async (
   req: Request,
-  res: Response<ApiResponse<User>>
+  res: Response<ApiResponse<Users>>
 ) => {
   try {
     const deletedUser = await userSerivice.remove(parseInt(req.params.id, 10));
