@@ -20,14 +20,29 @@ export const create = async (name: string, email: string) => {
 };
 
 export const update = async (id: number, name: string) => {
-  return prisma.users.update({
-    where: { id },
-    data: { name },
-  });
+  try {
+    return await prisma.users.update({
+      where: { id },
+      data: { name },
+    });
+  } catch (error: any) {
+    // Prisma throws error if not found
+    if (error.code === 'P2025') {
+      return null;
+    }
+    throw error;
+  }
 };
 
 export const remove = async (id: number) => {
-  return prisma.users.delete({
-    where: { id },
-  });
+  try {
+    return await prisma.users.delete({
+      where: { id },
+    });
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      return null;
+    }
+    throw error;
+  }
 };
