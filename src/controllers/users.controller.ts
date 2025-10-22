@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import * as userSerivice from '../services/users.service';
+// Zod schema 已迁移到 types/user.ts
 import { ApiResponse, success, failure } from '../types/api-response';
 import type { Users } from '@prisma/client';
+
+import { userCreateSchema, userUpdateSchema } from '../types/user';
 
 export const getAllUsers = async (
   req: Request,
@@ -19,8 +22,18 @@ export const createUser = async (
   req: Request,
   res: Response<ApiResponse<Users>>
 ) => {
+  // 校验请求体
+  const result = userCreateSchema.safeParse(req.body);
+  if (!result.success) {
+    // 获取第一个错误信息
+    const firstIssue = result.error.issues[0]?.message || 'Invalid input';
+    return res
+      .status(400)
+      .json(failure(`Validation error: ${firstIssue}`, 'VALIDATION_ERROR'));
+  }
   try {
-    const newUser = await userSerivice.create(req.body.name, req.body.email);
+    const { name, email } = result.data;
+    const newUser = await userSerivice.create(name, email);
     res.status(201).json(success(newUser, 'User created'));
   } catch (error) {
     res.status(500).json(failure('Failed to create user', 'USER_CREATE_ERROR'));
@@ -46,10 +59,24 @@ export const updateUser = async (
   req: Request,
   res: Response<ApiResponse<Users>>
 ) => {
+  // 校验请求体
+  const result = userUpdateSchema.safeParse(req.body);
+  if (!result.success) {
+    const firstIssue = result.error.issues[0]?.message || 'Invalid input';
+    return res
+      .status(400)
+      .json(failure(`Validation error: ${firstIssue}`, 'VALIDATION_ERROR'));
+  }
   try {
+    // 只在 name 存在时才更新
+    if (!result.data.name) {
+      return res
+        .status(400)
+        .json(failure('Name is required for update', 'VALIDATION_ERROR'));
+    }
     const user = await userSerivice.update(
       parseInt(req.params.id, 10),
-      req.body.name
+      result.data.name
     );
     if (user) {
       res.json(success(user));
